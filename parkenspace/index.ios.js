@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  Button,
   StyleSheet,
   Text,
   View
@@ -26,6 +27,10 @@ export default class parkenspace extends Component {
           Press Cmd+R to reload,{'\n'}
           Cmd+D or shake for dev menu
         </Text>
+        <Button
+            onPress={() => {console.log("pressed")}}
+            title="Save my spot"
+        />
       </View>
     );
   }
