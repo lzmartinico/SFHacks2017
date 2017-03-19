@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 
@@ -32,6 +34,7 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.location.LocationServices;
 
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -248,7 +251,13 @@ public class MapsMarkerActivity extends AppCompatActivity
 
                     myRef.setValue(mLastLocation);
                 }
-
+                //sleep
+                try {
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                };l
+                callNotification(this);
                 break;
 
             case R.id.buttonB:
@@ -362,7 +371,17 @@ public class MapsMarkerActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void callNotification(Context context/* TODO: Location location */) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.notification_icon_24dp)
+                        .setContentTitle(context.getText(R.string.notification_title))
+                        .setContentText(context.getText(R.string.notification_content));
 
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify("", 0, mBuilder.build());
+    }
 
 
 /*
