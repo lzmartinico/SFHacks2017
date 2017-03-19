@@ -47,7 +47,7 @@
         android:orientation="horizontal">
 
     <Button
-        android:text="A"
+        android:text="Parked Car"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="50dp"
@@ -57,7 +57,7 @@
         android:id="@+id/buttonA" />
 
     <Button
-        android:text="B"
+        android:text="Nav to Car"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="50dp"
