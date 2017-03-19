@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        TODO: Before you run your application, you need a Lyft API key.
+
+        Alternatively, follow the directions here:
+        https://www.lyft.com/developers
+
+        Once you have your appropriate ID, secret, & token, replace the respective strings.
+        string in this file.
+    -->
+    <string name="API_URL">https://api.lyft.com/oauth/token</string>
+    <string name="client_ID">cqiejpdpTFgw</string>
+    <string name="client_secret">6dOFsBMiWJ5aJJAvh7BLbI1tTj5G2nc_</string>
+    <string name="client_token">gAAAAABYp8Z6jFQsqjthy9v-5nOntE9WCgG2AzWRQGQA6mKw7QDxqp3ZH9CzTkS3zCvrkhLsrt9dxd4tLPDnDZ3N5ZlQIlh8V_Zv0K89_QUyCFA-3SZ5_iobAX8CmpsntJQzBdubaExguqmeKrACv53dOW2JjvSoG1Xftp9yTz10k1WWHa3JrMU=</string>
+</resources>

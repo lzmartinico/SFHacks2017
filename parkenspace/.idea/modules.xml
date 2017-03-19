@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ParkingMapsApplication.iml" filepath="$PROJECT_DIR$/ParkingMapsApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/parkenspace.iml" filepath="$PROJECT_DIR$/.idea/parkenspace.iml" />
     </modules>
   </component>
 </project>

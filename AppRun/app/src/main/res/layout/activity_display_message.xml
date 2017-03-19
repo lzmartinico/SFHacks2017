@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/widget28"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="215dp"
+        android:cropToPadding="false"
+        android:gravity="left"
+        android:scaleType="fitXY"
+        android:src="@drawable/rideshare" />
+
+    <TextView
+        android:text="You could save $13.40 by walking 2.5 blocks."
+        android:paddingTop="10dp"
+        android:paddingLeft="15dp"
+        android:gravity="left"
+        android:textColor="#ff000000"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TableRow
+            android:paddingTop="0dp"
+            android:paddingBottom="2dp">
+
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="15dp"
+                android:text="Current $"
+                android:textColor="#ff000000"
+                android:textSize="15dp" />
+
+            <EditText
+                android:id="@+id/current"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="15dp"
+                android:text="Potential $"
+                android:textColor="#ff000000"
+                android:textSize="15dp" />
+
+            <EditText
+                android:id="@+id/potential"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="text" />
+
+        </TableRow>
+
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.example.su_ange.gryft.MapsActivity"
+            map:cameraZoom="17"/>
+
+
+    </TableLayout>
+
+
+</LinearLayout>
