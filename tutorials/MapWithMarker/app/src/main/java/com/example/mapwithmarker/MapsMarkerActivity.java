@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
@@ -37,16 +38,24 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 /**
  * An activity that displays a Google map with a marker (pin) to indicate a particular location.
@@ -68,7 +77,7 @@ public class MapsMarkerActivity extends AppCompatActivity
 
     private GoogleMap googleMap;
     private Button buttonA;
-
+    private Button buttonB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +88,10 @@ public class MapsMarkerActivity extends AppCompatActivity
         // when the map is ready to be used.
 
         buttonA = (Button) findViewById(R.id.buttonA);
+        buttonB = (Button) findViewById(R.id.buttonB);
 
         buttonA.setOnClickListener(this);
+        buttonB.setOnClickListener(this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -232,11 +243,62 @@ public class MapsMarkerActivity extends AppCompatActivity
         }
 
     public void onClick(View v) {
+        LatLng test = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        Log.i("last",mLastLocation.toString());
 
-        if (mLastLocation != null) {
-            LatLng test = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            googleMap.addMarker(new MarkerOptions().position(test).title("Marker in my parkingspot i always do"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 18));
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("mLastLocation Object Value");
+
+        switch (v.getId()) {
+            case R.id.buttonA:
+
+                if (mLastLocation != null) {
+
+                    googleMap.addMarker(new MarkerOptions().position(test).title("Marker in my parkingspot i always do"));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, 18));
+
+
+
+                    myRef.setValue(mLastLocation);
+                }
+
+                break;
+
+            case R.id.buttonB:
+
+
+
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                    /*Location retrievedLastLocation = (Location) l;*/
+                        HashMap<String, Object> store = (HashMap<String, Object>) dataSnapshot.getValue();
+                        Log.d(TAG, "Value is: "
+                                + store.get("longitude").toString() + ", "
+                                + store.get("latitude").toString());
+
+                        try {
+                            Log.i("lastbeforefetchd",mLastLocation.toString());
+                            fetchDirections(store.get("latitude").toString(),store.get("longitude").toString());
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w(TAG, "Failed to read value.", error.toException());
+                    }
+                });
+
+                break;
+
         }
 
     }
@@ -245,7 +307,6 @@ public class MapsMarkerActivity extends AppCompatActivity
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
-
 
 
     public void showTimePickerDialog(View v) {
@@ -303,16 +364,62 @@ public class MapsMarkerActivity extends AppCompatActivity
     }
 
 
-    public void fetchDirections(Location location) throws MalformedURLException {
+    public void fetchDirections(String latitudeInput, String longitudeInput) throws MalformedURLException {
+        Log.i("lastfetchd",mLastLocation.toString());
         String url = "https://maps.google.com/maps?saddr=" +
         mLastLocation.getLatitude() +  "," + mLastLocation.getLongitude() +
-                "&daddr=" + Double.toString(location.getLatitude()) + ","
-                + Double.toString(location.getLongitude()) +
+                "&daddr=" + latitudeInput + ","
+                + longitudeInput +
                 "&mode=walking";
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse(url));
         startActivity(intent);
 
     }
+
+
+
+
+/*
+    String FILENAME = "marker_data";
+    String markerdatalat = Double.toString(mLastLocation.getLatitude());
+    String markerdatalong = Double.toString(mLastLocation.getLongitude());
+
+    public void writeToMarkerDataFile(){
+
+
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            fos.write(markerdatalat.getBytes());
+            fos.write(markerdatalong.getBytes());
+            fos.close();
+        }
+        catch (Exception FileNotFoundException){
+            Log.e("tag", "file not found error");
+        }
+    }
+
+    public void readfromMarkerDataFile(){
+
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[fis.available()];
+
+
+            String readMarkerDataLat = fis.read();
+            fis.read(readMarkerDataLat);
+            fis.close();
+
+
+
+        }
+        catch (Exception FileNotFoundException){
+            Log.e("tag", "file not found error");
+        }
+
+    }*/
 
 }
