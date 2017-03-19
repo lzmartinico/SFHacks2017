@@ -2,11 +2,14 @@ package com.example.mapwithmarker;
 
 import android.*;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.JsonReader;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -22,6 +25,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * An activity that displays a Google map with a marker (pin) to indicate a particular location.
@@ -192,4 +205,18 @@ public class MapsMarkerActivity extends AppCompatActivity
 
         buildGoogleApiClient();
     }
+
+
+    public void fetchDirections(Location location) throws MalformedURLException {
+        String url = "https://maps.google.com/maps?saddr=" +
+        mLastLocation.getLatitude() +  "," + mLastLocation.getLongitude() +
+                "&daddr=" + Double.toString(location.getLatitude()) + ","
+                + Double.toString(location.getLongitude()) +
+                "&mode=walking";
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse(url));
+        startActivity(intent);
+
+    }
+
 }
