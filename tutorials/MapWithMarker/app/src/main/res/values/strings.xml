@@ -3,4 +3,6 @@
     <string name="title_activity_maps">Map with Marker</string>
     <string name="pick_date">Set Date</string>
     <string name="pick_time">Set Time</string>
+    <string name="notification_title">Your parking is about to expire!</string>
+    <string name="notification_content">Tap to get direction to where you left your car</string>
 </resources>
